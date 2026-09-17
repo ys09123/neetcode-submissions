@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int robLinear(vector<int>& nums, int st, int end) {
+        int n = nums.size();
+        int prev2 = 0, prev1 = 0, curr;
+        for(int i = st; i <= end; i++) {
+            curr = max(prev1, prev2 + nums[i]);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+        return prev1;
+    }
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n == 0) return 0;
+        if(n == 1) return nums[0];
+        if(n == 2) return max(nums[0], nums[1]);
+        
+        int excludeFirst = robLinear(nums, 1, n - 1);
+        int excludeLast = robLinear(nums, 0, n - 2);
+
+        return max(excludeFirst, excludeLast);
+    }
+};
